@@ -1,14 +1,14 @@
 ---
 date: '3'
-title: 'Build a Spotify Connected App'
-cover: './course-card.png'
-external: 'https://www.newline.co/courses/build-a-spotify-connected-app'
-cta: 'https://www.newline.co/courses/build-a-spotify-connected-app'
+title: 'JobFindr'
+cover: './RN Jobs.png'
+external: '/JobFindr.apk'
+cta: '/JobFindr.apk'
 tech:
-  - React
-  - Express
-  - Spotify API
-  - Styled Components
+  - React Native
+  - Axios
+  - Expo Router
+  - Reanimated
 ---
 
 Having struggled with understanding how the Spotify OAuth flow works, I made the course I wish I could have had.

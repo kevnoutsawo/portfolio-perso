@@ -4,6 +4,8 @@ import styled from 'styled-components';
 import { Icon } from '@components/icons';
 import { socialMedia } from '@config';
 
+import { useIntl } from 'gatsby-plugin-intl';
+
 const StyledFooter = styled.footer`
   ${({ theme }) => theme.mixins.flexCenter};
   flex-direction: column;
@@ -68,6 +70,7 @@ const StyledCredit = styled.div`
 `;
 
 const Footer = () => {
+  const intl = useIntl();
   const [githubInfo, setGitHubInfo] = useState({
     stars: null,
     forks: null,
@@ -105,8 +108,8 @@ const Footer = () => {
       </StyledSocialLinks>
 
       <StyledCredit tabindex="-1">
-        <a href="https://github.com/bchiang7/v4">
-          <div>Designed &amp; Built by Brittany Chiang</div>
+        <a href="https://brittanychiang.com">
+          <div>{intl.formatMessage({ id: 'footerThanks' })}</div>
 
           {githubInfo.stars && githubInfo.forks && (
             <div className="github-stats">
@@ -121,6 +124,7 @@ const Footer = () => {
             </div>
           )}
         </a>
+        <p>Copyright &copy; 2023 Kevin Noutsawo</p>
       </StyledCredit>
     </StyledFooter>
   );

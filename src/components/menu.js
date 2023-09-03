@@ -2,9 +2,10 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Helmet } from 'react-helmet';
 import { Link } from 'gatsby';
 import styled from 'styled-components';
-import { navLinks } from '@config';
 import { KEY_CODES } from '@utils';
 import { useOnClickOutside } from '@hooks';
+
+import { useIntl, IntlContextConsumer, changeLocale } from 'gatsby-plugin-intl';
 
 const StyledMenu = styled.div`
   display: none;
@@ -156,6 +157,7 @@ const StyledSidebar = styled.aside`
 `;
 
 const Menu = () => {
+  const intl = useIntl();
   const [menuOpen, setMenuOpen] = useState(false);
 
   const toggleMenu = () => setMenuOpen(!menuOpen);
@@ -235,6 +237,64 @@ const Menu = () => {
   const wrapperRef = useRef();
   useOnClickOutside(wrapperRef, () => setMenuOpen(false));
 
+  const navLinks = [
+    {
+      name: intl.formatMessage({ id: 'navAbout' }),
+      url: '#about',
+    },
+    {
+      name: intl.formatMessage({ id: 'navWork' }),
+      url: '#projects',
+    },
+    {
+      name: intl.formatMessage({ id: 'navContact' }),
+      url: '#contact',
+    },
+  ];
+
+  const languageName = {
+    en: '🇬🇧 English',
+    es: '🇪🇸 Español',
+    fr: '🇫🇷 Français',
+    de: '🇩🇪 Deutsch',
+  };
+
+  const languageSwitcher = (
+    <div>
+      <IntlContextConsumer>
+        {({ languages, language: currentLocale }) => (
+          <select
+            onChange={e => changeLocale(e.target.value)}
+            value={currentLocale}
+            className="resume-button"
+            style={{
+              padding: `10px`,
+              marginTop: '30px',
+              backgroundColor: '#112240',
+              color: '#ccd6f6',
+              fontSize: '18px',
+              fontFamily: `SF Mono, Fira Code, Fira Mono, Roboto Mono, monospace`,
+              borderRadius: '10px',
+              borderColor: '#64ffda',
+              outline: 'none',
+            }}>
+            {languages.map(language => (
+              <option
+                key={language}
+                value={language}
+                style={{
+                  backgroundColor: '#0a192f',
+                  fontSize: '14px',
+                }}>
+                {languageName[language]}
+              </option>
+            ))}
+          </select>
+        )}
+      </IntlContextConsumer>
+    </div>
+  );
+
   return (
     <StyledMenu>
       <Helmet>
@@ -266,9 +326,14 @@ const Menu = () => {
               </ol>
             )}
 
-            <a href="/resume.pdf" className="resume-link">
-              Resume
+            <a
+              className="resume-button"
+              href={`/${intl.formatMessage({ id: 'resumeFile' })}`}
+              target="_blank"
+              rel="noopener noreferrer">
+              {intl.formatMessage({ id: 'navResumeLink' })}
             </a>
+            {languageSwitcher}
           </nav>
         </StyledSidebar>
       </div>

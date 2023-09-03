@@ -7,6 +7,8 @@ import { srConfig } from '@config';
 import { Icon } from '@components/icons';
 import { usePrefersReducedMotion } from '@hooks';
 
+import { useIntl } from 'gatsby-plugin-intl';
+
 const StyledProjectsGrid = styled.ul`
   ${({ theme }) => theme.mixins.resetList};
 
@@ -304,6 +306,13 @@ const StyledProject = styled.li`
 `;
 
 const Featured = () => {
+  const intl = useIntl();
+  const desc = [
+    intl.formatMessage({ id: 'featureProjectDesc1' }),
+    intl.formatMessage({ id: 'featureProjectDesc2' }),
+    intl.formatMessage({ id: 'featureProjectDesc3' }),
+  ];
+
   const data = useStaticQuery(graphql`
     {
       featured: allMarkdownRemark(
@@ -348,13 +357,13 @@ const Featured = () => {
   return (
     <section id="projects">
       <h2 className="numbered-heading" ref={revealTitle}>
-        Some Things I’ve Built
+        {intl.formatMessage({ id: 'featureTitle' })}
       </h2>
 
       <StyledProjectsGrid>
         {featuredProjects &&
           featuredProjects.map(({ node }, i) => {
-            const { frontmatter, html } = node;
+            const { frontmatter } = node;
             const { external, title, tech, github, cover, cta } = frontmatter;
             const image = getImage(cover);
 
@@ -362,16 +371,20 @@ const Featured = () => {
               <StyledProject key={i} ref={el => (revealProjects.current[i] = el)}>
                 <div className="project-content">
                   <div>
-                    <p className="project-overline">Featured Project</p>
+                    <p className="project-overline">
+                      {intl.formatMessage({ id: 'featureSubtitle' })}
+                    </p>
 
                     <h3 className="project-title">
                       <a href={external}>{title}</a>
                     </h3>
 
-                    <div
+                    {/* <div
                       className="project-description"
                       dangerouslySetInnerHTML={{ __html: html }}
-                    />
+                    /> */}
+
+                    <div className="project-description">{desc[i]}</div>
 
                     {tech.length && (
                       <ul className="project-tech-list">
@@ -384,7 +397,7 @@ const Featured = () => {
                     <div className="project-links">
                       {cta && (
                         <a href={cta} aria-label="Course Link" className="cta">
-                          Learn More
+                          {intl.formatMessage({ id: 'down' })}
                         </a>
                       )}
                       {github && (

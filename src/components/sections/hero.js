@@ -4,6 +4,8 @@ import styled from 'styled-components';
 import { navDelay, loaderDelay } from '@utils';
 import { usePrefersReducedMotion } from '@hooks';
 
+import { useIntl } from 'gatsby-plugin-intl';
+
 const StyledHeroSection = styled.section`
   ${({ theme }) => theme.mixins.flexCenter};
   flex-direction: column;
@@ -49,6 +51,7 @@ const StyledHeroSection = styled.section`
 const Hero = () => {
   const [isMounted, setIsMounted] = useState(false);
   const prefersReducedMotion = usePrefersReducedMotion();
+  const intl = useIntl();
 
   useEffect(() => {
     if (prefersReducedMotion) {
@@ -59,29 +62,21 @@ const Hero = () => {
     return () => clearTimeout(timeout);
   }, []);
 
-  const one = <h1>Hi, my name is</h1>;
-  const two = <h2 className="big-heading">Brittany Chiang.</h2>;
-  const three = <h3 className="big-heading">I build things for the web.</h3>;
+  const one = <h1>{intl.formatMessage({ id: 'hello' })}</h1>;
+  const two = <h2 className="big-heading">Kevin Noutsawo</h2>;
+  const three = <h3 className="big-heading">{intl.formatMessage({ id: 'pitch' })}</h3>;
   const four = (
     <>
-      <p>
-        I’m a software engineer specializing in building (and occasionally designing) exceptional
-        digital experiences. Currently, I’m focused on building accessible, human-centered products
-        at{' '}
-        <a href="https://upstatement.com/" target="_blank" rel="noreferrer">
-          Upstatement
-        </a>
-        .
-      </p>
+      <p>{intl.formatMessage({ id: 'heroText' })}</p>
     </>
   );
   const five = (
     <a
       className="email-link"
-      href="https://www.newline.co/courses/build-a-spotify-connected-app"
+      href={`mailto:kevnoutsawo@gmail.com?subject=${intl.formatMessage({ id: 'mailTo1' })}`}
       target="_blank"
       rel="noreferrer">
-      Check out my course!
+      {intl.formatMessage({ id: 'heroCTA' })}
     </a>
   );
 

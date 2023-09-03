@@ -8,6 +8,8 @@ import { navDelay } from '@utils';
 import { Layout } from '@components';
 import { usePrefersReducedMotion } from '@hooks';
 
+import { useIntl } from 'gatsby-plugin-intl';
+
 const StyledMainContainer = styled.main`
   ${({ theme }) => theme.mixins.flexCenter};
   flex-direction: column;
@@ -28,6 +30,7 @@ const StyledHomeButton = styled(Link)`
 `;
 
 const NotFoundPage = ({ location }) => {
+  const intl = useIntl();
   const [isMounted, setIsMounted] = useState(false);
   const prefersReducedMotion = usePrefersReducedMotion();
 
@@ -43,8 +46,8 @@ const NotFoundPage = ({ location }) => {
   const content = (
     <StyledMainContainer className="fillHeight">
       <StyledTitle>404</StyledTitle>
-      <StyledSubtitle>Page Not Found</StyledSubtitle>
-      <StyledHomeButton to="/">Go Home</StyledHomeButton>
+      <StyledSubtitle>{intl.formatMessage({ id: '404Text' })}</StyledSubtitle>
+      <StyledHomeButton to="/">{intl.formatMessage({ id: '404CTA' })}</StyledHomeButton>
     </StyledMainContainer>
   );
 

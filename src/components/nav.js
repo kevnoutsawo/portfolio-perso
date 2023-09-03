@@ -3,11 +3,12 @@ import { Link } from 'gatsby';
 import PropTypes from 'prop-types';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import styled, { css } from 'styled-components';
-import { navLinks } from '@config';
 import { loaderDelay } from '@utils';
 import { useScrollDirection, usePrefersReducedMotion } from '@hooks';
 import { Menu } from '@components';
 import { IconLogo, IconHex } from '@components/icons';
+
+import { useIntl, IntlContextConsumer, changeLocale } from 'gatsby-plugin-intl';
 
 const StyledHeader = styled.header`
   ${({ theme }) => theme.mixins.flexBetween};
@@ -151,6 +152,7 @@ const StyledLinks = styled.div`
 `;
 
 const Nav = ({ isHome }) => {
+  const intl = useIntl();
   const [isMounted, setIsMounted] = useState(!isHome);
   const scrollDirection = useScrollDirection('down');
   const [scrolledToTop, setScrolledToTop] = useState(true);
@@ -181,6 +183,28 @@ const Nav = ({ isHome }) => {
   const fadeClass = isHome ? 'fade' : '';
   const fadeDownClass = isHome ? 'fadedown' : '';
 
+  const navLinks = [
+    {
+      name: intl.formatMessage({ id: 'navAbout' }),
+      url: '#about',
+    },
+    {
+      name: intl.formatMessage({ id: 'navWork' }),
+      url: '#projects',
+    },
+    {
+      name: intl.formatMessage({ id: 'navContact' }),
+      url: '#contact',
+    },
+  ];
+
+  const languageName = {
+    en: '🇬🇧 English',
+    es: '🇪🇸 Español',
+    fr: '🇫🇷 Français',
+    de: '🇩🇪 Deutsch',
+  };
+
   const Logo = (
     <div className="logo" tabIndex="-1">
       {isHome ? (
@@ -206,9 +230,42 @@ const Nav = ({ isHome }) => {
   );
 
   const ResumeLink = (
-    <a className="resume-button" href="/resume.pdf" target="_blank" rel="noopener noreferrer">
-      Resume
+    <a
+      className="resume-button"
+      href={`/${intl.formatMessage({ id: 'resumeFile' })}`}
+      target="_blank"
+      rel="noopener noreferrer">
+      {intl.formatMessage({ id: 'navResumeLink' })}
     </a>
+  );
+
+  const languageSwitcher = (
+    <div>
+      <IntlContextConsumer>
+        {({ languages, language: currentLocale }) => (
+          <select
+            onChange={e => changeLocale(e.target.value)}
+            value={currentLocale}
+            className="resume-button"
+            style={{
+              padding: `10px`,
+            }}>
+            {languages.map(language => (
+              <option
+                key={language}
+                value={language}
+                style={{
+                  backgroundColor: '#0a192f',
+                  paddingTop: '5px !important',
+                  paddingBottom: '5px',
+                }}>
+                {languageName[language]}
+              </option>
+            ))}
+          </select>
+        )}
+      </IntlContextConsumer>
+    </div>
   );
 
   return (
@@ -228,6 +285,7 @@ const Nav = ({ isHome }) => {
                   ))}
               </ol>
               <div>{ResumeLink}</div>
+              <div>{languageSwitcher}</div>
             </StyledLinks>
 
             <Menu />
@@ -262,6 +320,16 @@ const Nav = ({ isHome }) => {
                   <CSSTransition classNames={fadeDownClass} timeout={timeout}>
                     <div style={{ transitionDelay: `${isHome ? navLinks.length * 100 : 0}ms` }}>
                       {ResumeLink}
+                    </div>
+                  </CSSTransition>
+                )}
+              </TransitionGroup>
+
+              <TransitionGroup component={null}>
+                {isMounted && (
+                  <CSSTransition classNames={fadeDownClass} timeout={timeout}>
+                    <div style={{ transitionDelay: `${isHome ? navLinks.length * 100 : 0}ms` }}>
+                      {languageSwitcher}
                     </div>
                   </CSSTransition>
                 )}
