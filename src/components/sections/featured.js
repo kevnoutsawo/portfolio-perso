@@ -8,6 +8,7 @@ import { Icon } from '@components/icons';
 import { usePrefersReducedMotion } from '@hooks';
 
 import { useIntl } from 'gatsby-plugin-intl';
+import { OutboundLink } from 'gatsby-plugin-google-gtag';
 
 const StyledProjectsGrid = styled.ul`
   ${({ theme }) => theme.mixins.resetList};
@@ -376,7 +377,7 @@ const Featured = () => {
                     </p>
 
                     <h3 className="project-title">
-                      <a href={external}>{title}</a>
+                      <OutboundLink href={external}>{title}</OutboundLink>
                     </h3>
 
                     {/* <div
@@ -396,7 +397,8 @@ const Featured = () => {
 
                     <div className="project-links">
                       {cta && (
-                        <a href={cta} aria-label="Course Link" className="cta">
+                        <a href={cta} aria-label="Download Link" className="cta">
+                          <Icon name="PlayStore" />
                           {intl.formatMessage({ id: 'down' })}
                         </a>
                       )}
@@ -406,18 +408,21 @@ const Featured = () => {
                         </a>
                       )}
                       {external && !cta && (
-                        <a href={external} aria-label="External Link" className="external">
+                        <OutboundLink
+                          href={external}
+                          aria-label="External Link"
+                          className="external">
                           <Icon name="External" />
-                        </a>
+                        </OutboundLink>
                       )}
                     </div>
                   </div>
                 </div>
 
                 <div className="project-image">
-                  <a href={external ? external : github ? github : '#'}>
+                  <OutboundLink href={external ? external : github ? github : '#'}>
                     <GatsbyImage image={image} alt={title} className="img" />
-                  </a>
+                  </OutboundLink>
                 </div>
               </StyledProject>
             );
