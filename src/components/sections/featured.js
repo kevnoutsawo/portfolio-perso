@@ -8,7 +8,6 @@ import { Icon } from '@components/icons';
 import { usePrefersReducedMotion } from '@hooks';
 
 import { useIntl } from 'gatsby-plugin-intl';
-import { OutboundLink } from 'gatsby-plugin-google-gtag';
 
 const StyledProjectsGrid = styled.ul`
   ${({ theme }) => theme.mixins.resetList};
@@ -377,7 +376,7 @@ const Featured = () => {
                     </p>
 
                     <h3 className="project-title">
-                      <OutboundLink href={external}>{title}</OutboundLink>
+                      <a href={external}>{title}</a>
                     </h3>
 
                     {/* <div
@@ -408,21 +407,18 @@ const Featured = () => {
                         </a>
                       )}
                       {external && !cta && (
-                        <OutboundLink
-                          href={external}
-                          aria-label="External Link"
-                          className="external">
+                        <a href={external} aria-label="External Link" className="external">
                           <Icon name="External" />
-                        </OutboundLink>
+                        </a>
                       )}
                     </div>
                   </div>
                 </div>
 
                 <div className="project-image">
-                  <OutboundLink href={external ? external : github ? github : '#'}>
+                  <a href={external ? external : github ? github : '#'}>
                     <GatsbyImage image={image} alt={title} className="img" />
-                  </OutboundLink>
+                  </a>
                 </div>
               </StyledProject>
             );
