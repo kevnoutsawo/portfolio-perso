@@ -141,7 +141,7 @@ const About = () => {
 
             <p>{intl.formatMessage({ id: 'aboutPresent' })}</p>
 
-            <p>{intl.formatMessage({ id: 'aboutTechInto' })}</p>
+            <p>{intl.formatMessage({ id: 'aboutTechIntro' })}</p>
           </div>
 
           <ul className="skills-list">
