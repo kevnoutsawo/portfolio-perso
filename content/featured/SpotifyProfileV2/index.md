@@ -1,13 +1,14 @@
 ---
 date: '3'
-title: 'JobFindr'
-cover: './RN Jobs.png'
-external: '/JobFindr.apk'
-cta: '/JobFindr.apk'
+title: 'sportaabe'
+cover: './sportaabe_home.jpg'
+external: 'https://sportaabe.com/'
+cta: 'https://play.google.com/store/apps/details?id=com.kamerounsport'
 tech:
   - React Native
   - Axios
-  - Expo Router
+  - Firebase
+  - Redux
   - Reanimated
 ---
 
